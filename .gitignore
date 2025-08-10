@@ -52,3 +52,4 @@ allure-report/
 /config/
 /bin/
 /extentReport.html
+.classpath
