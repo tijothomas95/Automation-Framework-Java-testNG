@@ -49,3 +49,6 @@ allure-report/
 # Others
 *.bak
 *.swp
+/config/
+/bin/
+/extentReport.html
