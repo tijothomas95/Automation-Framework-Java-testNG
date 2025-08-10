@@ -1,5 +1,51 @@
+
+# Maven target directory
 /target/
-/test-output/
-/logs/
+
+# Maven Wrapper files
+.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse IDE files
+.project
+.classpath
+.settings/
+
+# IntelliJ IDEA files
+.idea/
+*.iml
+*.iws
+
+# VSCode files
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Extent reports
 /extentReport.html/
-/.DS_Store
+
+# TestNG reports
+test-output/
+/target/
+
+# Allure results and reports
+allure-results/
+allure-report/
+
+# WebDriver binaries (if stored locally, not recommended)
+/drivers/
+*.exe
+*.dll
+
+# Temporary files
+*.tmp
+*.temp
+
+# Others
+*.bak
+*.swp
