@@ -18,7 +18,7 @@ public final class LoginPage extends BrowserUtility {
 	public MyAccountPage doLoginUser(String email, String password) {
 		enterText(EMAIL_LOC, email);
 		enterText(PASSWORD_LOC, password);
-		clickOn(SIGN_IN_BTN);
+		click(SIGN_IN_BTN);
 		return new MyAccountPage(getDriver());
 	}
 

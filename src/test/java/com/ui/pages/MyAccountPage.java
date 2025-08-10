@@ -14,7 +14,7 @@ public final class MyAccountPage extends BrowserUtility {
 	}
 	
 	public String getUserNameDisplayed() {
-		return getVisibleTest(USER_NAME_LOC);
+		return getVisibleText(USER_NAME_LOC);
 	}
 
 }

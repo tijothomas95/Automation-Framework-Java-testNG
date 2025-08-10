@@ -1,7 +1,10 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
-<suite name="Automation Java TestNG Suite" parallel="methods" thread-count="4"
+<suite name="Automation Java TestNG Suite" parallel="methods" thread-count="5"
 	verbose="1">
+	<listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
 	<test name="Ui Automation Test">
 		<parameter name="browser" value="${browser}" />
 		<parameter name="isHeadless" value="${isHeadless}" />

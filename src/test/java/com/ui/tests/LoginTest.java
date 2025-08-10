@@ -13,8 +13,7 @@ public class LoginTest extends BaseTest {
 	@Test(description = "Verify user login usi json data", 
 			groups = { "e2e", "smoke" }, 
 			dataProviderClass = com.ui.dataproviders.LoginDataProvider.class, 
-			dataProvider = "LoginTestJSONDataProvider",
-			retryAnalyzer = com.ui.listeners.MyRetryAnalyzer.class)
+			dataProvider = "LoginTestJSONDataProvider")
 	public void loginTestUsingJSONData(User user) {
 		assertEquals(homePg.gotoLoginPage().doLoginUser(user.getEmail(), user.getPassword()).getUserNameDisplayed(),
 				"Testfname TestLname");

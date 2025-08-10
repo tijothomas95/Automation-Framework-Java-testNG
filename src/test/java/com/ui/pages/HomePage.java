@@ -17,7 +17,7 @@ public final class HomePage extends BrowserUtility {
 	}
 	
 	public LoginPage gotoLoginPage() {
-		clickOn(SIGN_IN_LOC);
+        findClickable(SIGN_IN_LOC).click();
 		return new LoginPage(getDriver());
 	}
 
