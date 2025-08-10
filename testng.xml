@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Automation Java TestNG Suite" parallel="methods" thread-count="4"
+	verbose="1">
+	<test name="Ui Automation Test">
+		<parameter name="browser" value="${browser}" />
+		<parameter name="isHeadless" value="${isHeadless}" />
+		<classes>
+			<class name="com.ui.tests.LoginTest" />
+		</classes>
+	</test>
+</suite>
