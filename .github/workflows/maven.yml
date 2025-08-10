@@ -28,19 +28,12 @@ jobs:
           name: Test logs
           path: logs/
 
-    - name: Upload test reort
+    - name: Upload extendReport reort
       if: always()
       uses: actions/upload-artifact@v4.6.2
       with:
-          name: Test report
-          path: report.html
-
-    - name: Upload extendReport logs
-      if: always()
-      uses: actions/upload-artifact@v4.6.2
-      with:
-          name: extendReport logs
-          path: /extendReport.html
+          name: ExtendReport report
+          path: extendReport.html
 
     - name: Test execution status
       run: echo "Test execution complete"
