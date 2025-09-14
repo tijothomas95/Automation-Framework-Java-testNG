@@ -21,7 +21,8 @@
 					</suiteXmlFiles>
 					<systemPropertyVariables>
 						<browser>chrome</browser>
-						<isHeadless>false</isHeadless>
+						<isHeadless>true</isHeadless>
+						<isSeleniumGrid>false</isSeleniumGrid>
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>
