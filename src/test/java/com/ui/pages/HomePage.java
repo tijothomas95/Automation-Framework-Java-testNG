@@ -10,8 +10,8 @@ public final class HomePage extends BrowserUtility {
 	
 	private static final By SIGN_IN_LOC = By.cssSelector("a.login[href*=\"my-account\"]");
 	
-	public HomePage(Browser browserName, boolean isHeadless) {
-		super(browserName, isHeadless); // Inheritance: calls parent class constructor from child class constructor
+	public HomePage(Browser browserName, boolean isHeadless, boolean isSeleniumGrid) {
+		super(browserName, isHeadless, isSeleniumGrid); // Inheritance: calls parent class constructor from child class constructor
 		//goTo(getProperties(DEV, "URL"));
 		goTo(JSONUtility.readJSON(DEV).getUrl());
 	}

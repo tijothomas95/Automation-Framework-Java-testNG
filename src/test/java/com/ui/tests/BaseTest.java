@@ -12,14 +12,17 @@ public class BaseTest {
 	
 	protected HomePage homePg;
 	private boolean isHeadless;
+	private boolean isSeleniumGrid;
+
 	
 	
-	@Parameters({"browser", "isHeadless"}) // Parameter config in the testNG.xml
+	@Parameters({"browser", "isHeadless", "isSeleniumGrid"}) // Parameter config in the testNG.xml
 	@BeforeMethod(description="Load home page")
 	public void setup(
 			@Optional("chrome") String browser,
-			@Optional("false") boolean isHeadless) {
-		homePg = new HomePage(Browser.valueOf(browser.toUpperCase()), isHeadless); //Passing enum valueOf
+			@Optional("false") boolean isHeadless,
+			@Optional("false") boolean isSeleniumGrid){
+		homePg = new HomePage(Browser.valueOf(browser.toUpperCase()), isHeadless, isSeleniumGrid); //Passing enum valueOf
 	}
 	
 	@AfterMethod

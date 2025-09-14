@@ -2,6 +2,8 @@ package com.utility;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +19,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 
 import com.constants.Browser;
@@ -26,41 +29,63 @@ public abstract class BrowserUtility {
 	private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 	Logger logger = LoggerUtility.getLogger(this.getClass());
 
+	private static final String GRID_URL = "http://localhost:4444/wd/hub";
+
 	public BrowserUtility(WebDriver driver) {
 		this.driver.set(driver);
 	}
 
-	public BrowserUtility(Browser browserName, boolean isHeadless) {
-	    logger.info("Launching browser: {}, headless: {}", browserName, isHeadless);
+	public BrowserUtility(Browser browserName, boolean isHeadless, boolean isSeleniumGrid) {
+		logger.info("Launching browser: {}, headless: {}, seleniumGrid: {}", browserName, isHeadless, isSeleniumGrid);
 
-	    switch (browserName) {
-	        case CHROME:
-	            ChromeOptions chromeOptions = new ChromeOptions();
-	            if (isHeadless) {
-	            	chromeOptions.addArguments("--headless=new", "--window-size=1920,1080");
-	            }
-	            driver.set(new ChromeDriver(chromeOptions));
-	            break;
+		try {
+			switch (browserName) {
+			case CHROME:
+				ChromeOptions chromeOptions = new ChromeOptions();
+				if (isHeadless) {
+					chromeOptions.addArguments("--headless=new", "--window-size=1920,1080");
+				}
 
-	        case FIREFOX:
-	            FirefoxOptions firefoxOptions = new FirefoxOptions();
-	            if (isHeadless) {
-	            	firefoxOptions.addArguments("--headless");
-	            }
-	            driver.set(new FirefoxDriver(firefoxOptions));
-	            break;
+				if (isSeleniumGrid) {
+					driver.set(new RemoteWebDriver(new URL(GRID_URL), chromeOptions));
+				} else {
+					driver.set(new ChromeDriver(chromeOptions));
+				}
+				break;
 
-	        case EDGE:
-	            EdgeOptions edgeOptions = new EdgeOptions();
-	            if (isHeadless) {
-	                edgeOptions.addArguments("--headless=new", "--disable-gpu", "--window-size=1920,1080");
-	            }
-	            driver.set(new EdgeDriver(edgeOptions));
-	            break;
+			case FIREFOX:
+				FirefoxOptions firefoxOptions = new FirefoxOptions();
+				if (isHeadless) {
+					firefoxOptions.addArguments("--headless");
+				}
 
-	        default:
-	            throw new RuntimeException("Invalid browserName: " + browserName);
-	    }
+				if (isSeleniumGrid) {
+					driver.set(new RemoteWebDriver(new URL(GRID_URL), firefoxOptions));
+				} else {
+					driver.set(new FirefoxDriver(firefoxOptions));
+				}
+				break;
+
+			case EDGE:
+				EdgeOptions edgeOptions = new EdgeOptions();
+				if (isHeadless) {
+					edgeOptions.addArguments("--headless=new", "--disable-gpu", "--window-size=1920,1080");
+				}
+
+				if (isSeleniumGrid) {
+					driver.set(new RemoteWebDriver(new URL(GRID_URL), edgeOptions));
+				} else {
+					driver.set(new EdgeDriver(edgeOptions));
+				}
+				break;
+
+			default:
+				throw new RuntimeException("Invalid browser: " + browserName);
+			}
+
+		} catch (MalformedURLException e) {
+			throw new RuntimeException("Invalid Selenium Grid URL", e);
+		}
 	}
 
 	public WebDriver getDriver() {
@@ -98,48 +123,49 @@ public abstract class BrowserUtility {
 
 	// To check element present in DOM
 	protected WebElement findPresent(By locator) {
-        try {
-            return WaitUtils.waitForPresence(getDriver(), locator);
-        } catch (TimeoutException e) {
-            Assert.fail("Element not present: " + locator);
-            return null;
-        }
-    }
+		try {
+			return WaitUtils.waitForPresence(getDriver(), locator);
+		} catch (TimeoutException e) {
+			Assert.fail("Element not present: " + locator);
+			return null;
+		}
+	}
 
 	// To interact with element
-    protected WebElement findVisible(By locator) {
-        try {
-            return WaitUtils.waitForVisibility(getDriver(), locator);
-        } catch (TimeoutException e) {
-            Assert.fail("Element not visible: " + locator);
-            return null;
-        }
-    }
+	protected WebElement findVisible(By locator) {
+		try {
+			return WaitUtils.waitForVisibility(getDriver(), locator);
+		} catch (TimeoutException e) {
+			Assert.fail("Element not visible: " + locator);
+			return null;
+		}
+	}
 
-    protected WebElement findClickable(By locator) {
-        try {
-            return WaitUtils.waitForClickability(getDriver(), locator);
-        } catch (TimeoutException e) {
-            Assert.fail("Element not clickable: " + locator);
-            return null;
-        }
-    }
-    
-    // Optional if you also want to save locally
- 	public String getScreenshot(String name) {
- 	    String screenshotsDir = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator;
- 	    File dir = new File(screenshotsDir);
- 	    if (!dir.exists()) dir.mkdirs();
+	protected WebElement findClickable(By locator) {
+		try {
+			return WaitUtils.waitForClickability(getDriver(), locator);
+		} catch (TimeoutException e) {
+			Assert.fail("Element not clickable: " + locator);
+			return null;
+		}
+	}
 
- 	    String path = screenshotsDir + System.currentTimeMillis() + "_" + name + ".png";
- 	    File destination = new File(path);
+	// Optional if you also want to save locally
+	public String getScreenshot(String name) {
+		String screenshotsDir = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator;
+		File dir = new File(screenshotsDir);
+		if (!dir.exists())
+			dir.mkdirs();
 
- 	    try {
- 	        File src = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
- 	        FileUtils.copyFile(src, destination);
- 	    } catch (IOException e) {
- 	        logger.error("Failed to capture screenshot: {}", e.getMessage());
- 	    }
- 	    return path;
- 	}
+		String path = screenshotsDir + System.currentTimeMillis() + "_" + name + ".png";
+		File destination = new File(path);
+
+		try {
+			File src = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(src, destination);
+		} catch (IOException e) {
+			logger.error("Failed to capture screenshot: {}", e.getMessage());
+		}
+		return path;
+	}
 }
