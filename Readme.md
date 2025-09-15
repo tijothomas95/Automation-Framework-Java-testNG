@@ -2,6 +2,7 @@
 
 ## **Overview**
 `Automation-Java-TestNG` is a **Test Automation framework** designed for automating tests for the application **[automationpractise.pl](https://automationpractise.pl)**. The framework is built using **Java**, **TestNG**, **Selenium WebDriver**, and integrates with **Maven** for easy build management and dependency management.
+This project enables you to run automated UI tests using Selenium Grid with Docker Compose, allowing parallel execution across multiple browsers like Chrome, Firefox, and Edge.
 
 The framework supports the following:
 - **Browser Automation** (using Selenium WebDriver)
@@ -9,6 +10,7 @@ The framework supports the following:
 - **Test Reporting** (using ExtentReports)
 - **Logging** (via Log4j)
 - **Cross-browser Testing** (supports Chrome by default)
+- **Selenium Grid** (Docker Compose)
 
 ---
 
@@ -111,3 +113,4 @@ The following dependencies are included in this framework:
 | `com.aventstack`                    | `extentreports`             | `5.1.2`    | ExtentReports for test reporting                  |
 | `org.apache.maven.plugins`          | `maven-surefire-plugin`     | `3.5.3`    | Plugin for running tests with Maven               |
 | `org.apache.maven.plugins`          | `maven-compiler-plugin`     | `3.14.0`   | Plugin for compiling Java code                    |
+
