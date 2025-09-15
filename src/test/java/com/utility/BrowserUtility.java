@@ -23,13 +23,12 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 
 import com.constants.Browser;
+import com.constants.Constants;
 
 public abstract class BrowserUtility {
 
 	private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 	Logger logger = LoggerUtility.getLogger(this.getClass());
-
-	private static final String GRID_URL = "http://localhost:4444/wd/hub";
 
 	public BrowserUtility(WebDriver driver) {
 		this.driver.set(driver);
@@ -37,6 +36,9 @@ public abstract class BrowserUtility {
 
 	public BrowserUtility(Browser browserName, boolean isHeadless, boolean isSeleniumGrid) {
 		logger.info("Launching browser: {}, headless: {}, seleniumGrid: {}", browserName, isHeadless, isSeleniumGrid);
+		
+		String gridUrl = String.format(PropertiesUtil.getDefaultProperty(Constants.GRID_URL), 
+				PropertiesUtil.getDefaultProperty(Constants.GRID_HUB_HOST));
 
 		try {
 			switch (browserName) {
@@ -47,7 +49,7 @@ public abstract class BrowserUtility {
 				}
 
 				if (isSeleniumGrid) {
-					driver.set(new RemoteWebDriver(new URL(GRID_URL), chromeOptions));
+					driver.set(new RemoteWebDriver(new URL(gridUrl), chromeOptions));
 				} else {
 					driver.set(new ChromeDriver(chromeOptions));
 				}
@@ -60,7 +62,7 @@ public abstract class BrowserUtility {
 				}
 
 				if (isSeleniumGrid) {
-					driver.set(new RemoteWebDriver(new URL(GRID_URL), firefoxOptions));
+					driver.set(new RemoteWebDriver(new URL(gridUrl), firefoxOptions));
 				} else {
 					driver.set(new FirefoxDriver(firefoxOptions));
 				}
@@ -73,7 +75,7 @@ public abstract class BrowserUtility {
 				}
 
 				if (isSeleniumGrid) {
-					driver.set(new RemoteWebDriver(new URL(GRID_URL), edgeOptions));
+					driver.set(new RemoteWebDriver(new URL(gridUrl), edgeOptions));
 				} else {
 					driver.set(new EdgeDriver(edgeOptions));
 				}
