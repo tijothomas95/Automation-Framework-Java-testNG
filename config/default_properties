@@ -1,0 +1,11 @@
+# browser
+browser = chrome
+isHeadless = true
+
+# env
+env = DEV
+
+# Selenium grid
+isGridEnabled = false
+gridUrl = http://%s:4444/wd/hub
+gridHubHost = localhost
