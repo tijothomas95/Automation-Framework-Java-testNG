@@ -2,9 +2,12 @@ package com.ui.pages;
 
 import org.openqa.selenium.By;
 import com.constants.Browser;
-import static com.constants.Env.*;
+import com.constants.Constants;
+import com.constants.Env;
+
 import com.utility.BrowserUtility;
 import com.utility.JSONUtility;
+import com.utility.PropertiesUtil;
 
 public final class HomePage extends BrowserUtility {
 	
@@ -12,8 +15,9 @@ public final class HomePage extends BrowserUtility {
 	
 	public HomePage(Browser browserName, boolean isHeadless, boolean isSeleniumGrid) {
 		super(browserName, isHeadless, isSeleniumGrid); // Inheritance: calls parent class constructor from child class constructor
-		//goTo(getProperties(DEV, "URL"));
-		goTo(JSONUtility.readJSON(DEV).getUrl());
+		//goTo(getEnvProperties(DEV, "URL"));
+		
+		goTo(JSONUtility.readJSON(Env.valueOf(PropertiesUtil.getDefaultProperty(Constants.ENV))).getUrl());
 	}
 	
 	public LoginPage gotoLoginPage() {
