@@ -30,6 +30,7 @@ To run the tests, you must have the following installed:
 - **Java 11+** (Required by the project)
 - **Maven** (for dependency management and test execution)
 - **IDE** (like IntelliJ IDEA or Eclipse)
+- **Docker Desktop** (installed and running)
 
 ---
 
@@ -97,6 +98,26 @@ Logs for debugging
 The framework uses Log4j for logging. Logs will be generated in target/logs/ and can help track test execution and debug failures.
 You can configure logging in the src/main/resources/log4j2.xml file.
 
+## Selenium Grid Execution
+This project enables you to run automated UI tests using Selenium Grid with Docker Compose, allowing parallel execution across multiple browsers like Chrome, Firefox, and Edge.
+
+From the root of the project:
+```
+docker compose up --scale chrome=3 --scale firefox=2 --scale edge=1
+
+chrome=3 starts 3 Chrome nodes
+firefox=2 starts 2 Firefox nodes
+edge=1 starts 1 Edge node
+```
+
+After the Grid is up, run your tests via Maven:
+```
+mvn clean test
+```
+
+Make sure your framework points to the Grid URL: http://localhost:4444/wd/hub
+This can be configured via default_properties or passed through testng.xml
+
 ## Dependencies
 The following dependencies are included in this framework:
 
@@ -113,4 +134,5 @@ The following dependencies are included in this framework:
 | `com.aventstack`                    | `extentreports`             | `5.1.2`    | ExtentReports for test reporting                  |
 | `org.apache.maven.plugins`          | `maven-surefire-plugin`     | `3.5.3`    | Plugin for running tests with Maven               |
 | `org.apache.maven.plugins`          | `maven-compiler-plugin`     | `3.14.0`   | Plugin for compiling Java code                    |
+
 
